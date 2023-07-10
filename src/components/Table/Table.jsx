@@ -1,33 +1,38 @@
 import React from "react"
 import './Table.css';
 
-const Table = ({ measure, wineData, classesMean, classesMedian, classesMode }) => {
-    console.log(classesMedian, classesMode);
-    console.log("headings are ",Object.keys(wineData[0]));
-    const headings = Object.keys(wineData[0]);
+const Table = ({ measures, property }) => {
+    console.log("measures in table ", );
+    let meanData = measures['mean'];
+    let medianData =  measures['median'];
+    let modeData =  measures['mode'];
 
     return (<React.Fragment>
-        <h2>{measure} Table</h2>
+        <h2>{property} Table</h2>
         <table>
             <thead>
                 <tr>
                     <td>Measure</td>
-                    {headings.map(heading=><td key={heading}>{heading}</td>)}
+                    <td>Alcohal Class 1</td>
+                    <td>Alcohal Class 2</td>
+                    <td>Alcohal Class 3</td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{measure} Mean</td>
-                    {classesMean.map((mean,index)=><td key={index}>{mean}</td>)}
-                    
+                    <td>{property} Mean</td>
+                    {/* {measures} */}
+                    {/* {classesMean.map((mean,index)=><td key={index}>{mean}</td>)} */}
+                    {meanData && meanData.map((value,index)=><td key={index}>{value}</td>)}
                 </tr>
                 <tr>
-                    <td>{measure} Median</td>
-                    {classesMedian.map((median,index)=><td key={index}>{median}</td>)}
+                    <td>{property} Median</td>    
+                    {/* {classesMedian.map((median,index)=><td key={index}>{median}</td>)} */}
+                    {medianData && medianData.map((value,index)=><td key={index}>{value}</td>)}
                 </tr>
                 <tr>
-                    <td>{measure} Mode</td>
-                    {classesMode.map((mode,index)=><td key={index}>{mode}</td>)}
+                    <td>{property} Mode</td>  
+                    {modeData && modeData.map((value,index)=><td key={index}>{value}</td>)}
                 </tr>
             </tbody>
         </table>

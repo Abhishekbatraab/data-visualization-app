@@ -1,25 +1,39 @@
+/**
+ * function to calculate mean measurement for the input data
+ * @param {*} wineData 
+ * @returns 
+ */
 export function calculateMean(wineData){
     let sumOfValues = wineData.reduce(function(sum, curr){
         sum=sum+Number(curr);
         return sum
     },0).toFixed(2);
-    console.log("Calculate Mean is ",(sumOfValues/178).toFixed(2));
     return (sumOfValues/178).toFixed(2);
 }
 
+/**
+ * function to calculate median measurement for the input data
+ * @param {*} wineData 
+ * @returns 
+ */
 export function calculateMedian(wineData){
-    let length = wineData.length;
-    let median = 0
-    if(length % 2 == 1){
-        median = (Number(wineData[length]) + 1)/2;
-    }else{
-        median = (Number(wineData[length/2]) + Number(wineData[(length/2)-1])) /2
+    const sortedData = wineData.sort((a, b) => a - b);
+    const middleIndex = Math.floor(sortedData.length / 2);
+    
+    if (sortedData.length % 2 === 0) {
+        return ((sortedData[middleIndex - 1] + sortedData[middleIndex]) / 2).toFixed(2);
+    } else {
+        return (sortedData[middleIndex]).toFixed(2);
     }
-    console.log("Median is ", median);
-    return median.toFixed(2);
 }
 
+/**
+ * function to calculate mode measurement for the input data
+ * @param {*} wineData 
+ * @returns 
+ */
 export function calculateMode(wineData){
+
     const mode = {};
     let max = 0, count = 0;
 
@@ -37,10 +51,16 @@ export function calculateMode(wineData){
             count = mode[item];
         }
     }
-    console.log(max, count);
     return max;
 }
 
+/**
+ * function defined to calculate 'Gamma' value and create a property for it  
+ * @param {*} Ash 
+ * @param {*} Hue 
+ * @param {*} Magnesium 
+ * @returns 
+ */
 export function calculateGamma(Ash, Hue, Magnesium){
     let gamma = (Ash * Hue)/Magnesium;
     return Number(gamma.toFixed(2));

@@ -8,35 +8,24 @@ function App() {
 
   //we are getting the data from JSON
   const [wineData, setWineData] = useState(wines);
-  const [classesMean, setClassesMean] = useState([]);
-  const [classesMedian , setClassesMedian] = useState([]);
-  const [classesMode, setClassesMode] = useState([]);
+
+  const [flavanoidsMeasures, setFlavanoidsMeasures] = useState({});
+  const [gammaMeasures, setGammaMeasures] = useState({});
 
   useEffect(()=>{
     //setting the gamma property to the data set
     let wineDataArray = [...wineData];
     wineDataArray = setGamma(wineDataArray);
-    //storing the classes 
-    let wineClasses = Object.keys(wineData[0]);
-    let classesMeanArray = [...classesMean];
-    let classesMedianArray = [...classesMedian];
-    let classesModeArray = [...classesMode];
-    //getting the mean, media and mode data for each class
-    wineClasses.forEach(wineClass=>{
-      let filteredData = getTableData(wineClass, wineDataArray);
-      console.log(classesMeanArray);
-      if(classesMeanArray.length<=wineClasses.length-1 && classesMedianArray.length<=wineClasses.length-1 && classesModeArray.length<=wineClasses.length-1){
-        classesMeanArray.push(calculateMean(filteredData));
-        classesMedianArray.push(calculateMedian(filteredData));
-        classesModeArray.push(calculateMode(filteredData));
-      }
-    });
-    //setting the classes mean, median and mode
-    setClassesMean(classesMeanArray);
-    setClassesMedian(classesMedianArray);
-    setClassesMode(classesModeArray);
-    // update the wine data with 'Gamma' property
-    setWineData(wineDataArray);
+
+    //Creating classes for Flavanoids
+    const flavanoidsClasses = setClassesData(wineDataArray, "Flavanoids");
+    const gammaClasses = setClassesData(wineDataArray, "Gamma");
+
+    //creating data for flavanoids and gamma table
+    const flavanoidsTableData = setTableData(flavanoidsClasses);
+    const gammaTableData = setTableData(gammaClasses);
+    setFlavanoidsMeasures(flavanoidsTableData);
+    setGammaMeasures(gammaTableData);
   },[])
 
   /**
@@ -51,24 +40,52 @@ function App() {
   }
   
   /**
-   * function defined to get the Mean, Median and Mode of a particular measure from wine data
-   * @param {*} measure 
-   * @param {*} wineData 
+   * function defined to set classes 
+   * @param {*} wineDataArray 
+   * @param {*} property 
+   * @returns 
    */
-  function getTableData(measure, wineData){
-    let filteredData = wineData.map(data=>{
-      let value = data[measure];
-      return value
-    });
-    return filteredData;
+  function setClassesData(wineDataArray, property){
+    let classes = {}
+    wineDataArray.forEach(data=>{
+      const classKey = data.Alcohol;
+      const propertyValue = data[property];
+      if(classes[classKey]){
+        classes[classKey].push(propertyValue)
+      }else{
+        classes[classKey] = [propertyValue]
+      }
+    })
+    return classes
+  }
+
+  /**
+   * function defined to set final data for table
+   * @param {*} classes 
+   */
+  function setTableData(classes){
+
+    let stats = {
+      mean: [],
+      median: [],
+      mode: []
+    };
+
+    for (const classKey in classes) {
+      const data = classes[classKey];
+      stats['mean'].push(calculateMean(data));
+      stats['median'].push(calculateMedian(data));
+      stats['mode'].push(calculateMode(data)); 
+    }
+    return stats
   }
 
   return (
     <div className="App">
       <h1>Wine Data Visualization App</h1>
       <div className='tableContainer'>
-        <Table measure="Falavoids" wineData={wineData} classesMean={classesMean} classesMedian={classesMedian} classesMode={classesMode} />
-        <Table measure="Gamma" wineData={wineData} classesMean={classesMean} classesMedian={classesMedian} classesMode={classesMode} />   
+        <Table property="Falavoids" measures={flavanoidsMeasures}/>
+        <Table property="Gamma"  measures={gammaMeasures}/>
       </div>
     </div>
   );
