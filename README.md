@@ -72,4 +72,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 Final output data screenshot:-
 ![table-final-ss](https://github.com/Abhishekbatraab/data-visualization-app/assets/25466014/a60342c0-394f-48ff-9ec5-87363793a43f)
 
+Screenshot after fixing the mean and mode:-
+![table-ss](https://github.com/Abhishekbatraab/data-visualization-app/assets/25466014/2a8399ac-80fa-4ef7-9a95-78622d5bc7b2)
+
+
 
