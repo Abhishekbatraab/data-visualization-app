@@ -2,7 +2,6 @@ import React from "react"
 import './Table.css';
 
 const Table = ({ measures, property }) => {
-    console.log("measures in table ", );
     let meanData = measures['mean'];
     let medianData =  measures['median'];
     let modeData =  measures['mode'];
@@ -21,13 +20,10 @@ const Table = ({ measures, property }) => {
             <tbody>
                 <tr>
                     <td>{property} Mean</td>
-                    {/* {measures} */}
-                    {/* {classesMean.map((mean,index)=><td key={index}>{mean}</td>)} */}
                     {meanData && meanData.map((value,index)=><td key={index}>{value}</td>)}
                 </tr>
                 <tr>
                     <td>{property} Median</td>    
-                    {/* {classesMedian.map((median,index)=><td key={index}>{median}</td>)} */}
                     {medianData && medianData.map((value,index)=><td key={index}>{value}</td>)}
                 </tr>
                 <tr>

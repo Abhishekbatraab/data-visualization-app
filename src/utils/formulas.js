@@ -4,11 +4,8 @@
  * @returns 
  */
 export function calculateMean(wineData){
-    let sumOfValues = wineData.reduce(function(sum, curr){
-        sum=sum+Number(curr);
-        return sum
-    },0).toFixed(2);
-    return (sumOfValues/178).toFixed(2);
+    const sum = wineData.reduce((total, item) => total + Number(item), 0);
+    return (sum / wineData.length).toFixed(2);
 }
 
 /**
@@ -33,25 +30,17 @@ export function calculateMedian(wineData){
  * @returns 
  */
 export function calculateMode(wineData){
-
-    const mode = {};
-    let max = 0, count = 0;
-
-    for(let i = 0; i < wineData.length; i++) {
-        const item = wineData[i];
-        
-        if(mode[item]) {
-            mode[item]++;
-        } else {
-            mode[item] = 1;
-        }
-        
-        if(count < mode[item]) {
-            max = item;
-            count = mode[item];
-        }
-    }
-    return max;
+    let mode = Object.values(
+        wineData.reduce((count, e) => {
+            if (!(e in count)) {
+            count[e] = [0, e];
+            }
+            
+            count[e][0]++;
+            return count;
+        }, {})
+    ).reduce((a, v) => v[0] < a[0] ? a : v, [0, null])[1];
+    return mode;
 }
 
 /**
